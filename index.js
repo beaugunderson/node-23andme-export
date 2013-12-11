@@ -42,6 +42,7 @@ app.use(express.logger());
 app.use(express.static(__dirname + '/public'));
 app.use('/bower', express.static(__dirname + '/bower_components'));
 
+app.use(express.favicon());
 app.use(express.cookieParser());
 app.use(express.urlencoded());
 app.use(express.json());
@@ -134,10 +135,6 @@ app.get('/auth/callback',
   }), function (req, res) {
     res.redirect('/23andme/');
   });
-
-app.get('/favicon.ico', function (req, res) {
-  res.send(404);
-});
 
 app.get('/session', function (req, res) {
   if (!req.session.accessToken) {
