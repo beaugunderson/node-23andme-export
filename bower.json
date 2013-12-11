@@ -1,0 +1,23 @@
+{
+  "name": "23andme-export",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/beaugunderson/node-23andme-export",
+  "authors": [
+    "Beau Gunderson <beau@beaugunderson.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "async": "~0.2.5",
+    "jszip": "~2.0.0"
+  }
+}

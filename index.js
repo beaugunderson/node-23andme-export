@@ -33,13 +33,14 @@ app.engine('html', swig.renderFile);
 
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
+//app.set('view options', { layout: false });
 // Express' own caching
 app.set('view cache', false);
 
 app.use(express.logger());
 
 app.use(express.static(__dirname + '/public'));
-//app.use('/bower', express.static(__dirname + '/bower_components'));
+app.use('/bower', express.static(__dirname + '/bower_components'));
 
 app.use(express.cookieParser());
 app.use(express.urlencoded());
@@ -83,8 +84,6 @@ passport.use(new TwentyThreeAndMeStrategy({
     profile.refreshToken = refreshToken;
 
     api('/names/', accessToken, function (err, response, body) {
-      console.log('body %j', body);
-
       profile.profiles = body.profiles;
 
       done(null, profile);
