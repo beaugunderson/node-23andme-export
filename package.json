@@ -24,6 +24,9 @@
   "dependencies": {
     "passport": "~0.1.17",
     "passport-23andme": "~0.1.1",
-    "express": "~3.4.7"
+    "express": "~3.4.7",
+    "swig": "~1.2.2",
+    "request": "~2.29.0",
+    "express-csv": "~0.6.0"
   }
 }

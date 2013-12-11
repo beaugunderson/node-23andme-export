@@ -1,0 +1,35 @@
+{% if user %}
+ <p><a href="/23andme/logout">Logout</a><p>
+
+ {% for profile in user.profiles %}
+  <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
+
+  <ul>
+   <li>
+    Risks
+    <a href="/23andme/data/risks/{{ profile.id }}">CSV</a>
+    <a href="/23andme/data/risks/{{ profile.id }}/json">JSON</a>
+   </li>
+   <li>
+    Carriers
+    <a href="/23andme/data/carriers/{{ profile.id }}">CSV</a>
+    <a href="/23andme/data/carriers/{{ profile.id }}/json">JSON</a>
+   </li>
+   <li>
+    Drug Responses
+    <a href="/23andme/data/drug_responses/{{ profile.id }}">CSV</a>
+    <a href="/23andme/data/drug_responses/{{ profile.id }}/json">JSON</a>
+   </li>
+   <li>
+    Traits
+    <a href="/23andme/data/traits/{{ profile.id }}">CSV</a>
+    <a href="/23andme/data/traits/{{ profile.id }}/json">JSON</a>
+   </li>
+  </ul>
+ {% endfor %}
+{% else %}
+ <a href="/23andme/auth">Login</a>
+{% endif %}
+
+<a href="https://github.com/beaugunderson/node-23andme-export">Fork me on
+ GitHub!</a>
