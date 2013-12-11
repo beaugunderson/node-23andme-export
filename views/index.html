@@ -7,6 +7,11 @@
  {% for profile in user.profiles %}
   <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
 
+  <a class="zip" href="/23andme/data/{{ profile.id }}/zip"
+   data-profile-id="{{ profile.id }}">Generate a zip file</a>
+
+  <span class="generating" style="display: none;">Generating...</span>
+
   <h3>Health</h3>
 
   <ul>
@@ -48,11 +53,6 @@
     <a href="/23andme/data/neanderthal/{{ profile.id }}/json">JSON</a>
    </li>
   </ul>
-
-  <a class="zip" href="/23andme/data/{{ profile.id }}/zip"
-   data-profile-id="{{ profile.id }}">Generate a zip file</a>
-
-  <span class="generating" style="display: none;">Generating...</span>
  {% endfor %}
 {% else %}
  <a href="/23andme/auth">Login</a>
