@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var passport = require('passport');
 var request = require('request');
@@ -8,9 +10,9 @@ require('express-csv');
 
 var API_URL = 'https://api.23andme.com/1';
 
-function api(url, accessToken, opt_cb) {
-  if (!opt_cb) {
-    opt_cb = function () {};
+function api(url, accessToken, optionalCallback) {
+  if (!optionalCallback) {
+    optionalCallback = function () {};
   }
 
   return request.get({
@@ -19,7 +21,7 @@ function api(url, accessToken, opt_cb) {
       Authorization: 'Bearer ' + accessToken
     },
     json: true
-  }, opt_cb);
+  }, optionalCallback);
 }
 
 swig.setDefaults({
@@ -46,7 +48,7 @@ app.use(express.favicon());
 app.use(express.cookieParser());
 app.use(express.urlencoded());
 app.use(express.json());
-app.use(express.session({ secret: process.env.SESSION_SECRET }));
+app.use(express.session({secret: process.env.SESSION_SECRET}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -70,10 +72,10 @@ passport.deserializeUser(function (obj, done) {
 });
 
 passport.use(new TwentyThreeAndMeStrategy({
-    callbackURL: "https://beaugunderson.com/23andme/auth/callback",
+    callbackURL: process.env.CALLBACK_URL,
     clientID: process.env.TTANDME_CONSUMER_KEY,
     clientSecret: process.env.TTANDME_CONSUMER_SECRET,
-    scope: "basic names haplogroups ancestry analyses",
+    scope: 'basic names haplogroups ancestry analyses',
     skipUserProfile: true
   },
   function (accessToken, refreshToken, profile, done) {
@@ -85,6 +87,10 @@ passport.use(new TwentyThreeAndMeStrategy({
     profile.refreshToken = refreshToken;
 
     api('/names/', accessToken, function (err, response, body) {
+      if (err) {
+        console.error(err);
+      }
+
       profile.profiles = body.profiles;
 
       done(null, profile);
@@ -93,7 +99,7 @@ passport.use(new TwentyThreeAndMeStrategy({
 ));
 
 app.get('/', function (req, res) {
-  res.render('index', { user: req.user });
+  res.render('index', {user: req.user});
 });
 
 app.all('/data/*', ensureAuthenticated);
