@@ -110,13 +110,17 @@ app.get('/data/:type/:profile/json', function (req, res) {
 });
 
 function genericTraitCSV(req, res) {
-  api('/' + req.param('type') + '/' + req.param('profile') + '/',
-    req.user.accessToken, function (err, response, body) {
+  var url = '/' + req.param('type') + '/' + req.param('profile') + '/';
+
+  api(url, req.user.accessToken, function (err, response, body) {
       if (err || !body) {
         return res.send(err);
       }
 
-      var keys = Object.keys(body.traits[0]);
+      var item = body.traits || body.carriers || body.drug_responses ||
+        body.risks;
+
+      var keys = Object.keys(item[0]);
 
       var headers = {};
 
@@ -127,7 +131,7 @@ function genericTraitCSV(req, res) {
       res.set('Content-Disposition', 'attachment; filename=' +
         req.param('type') + '.csv');
 
-      res.csv([headers].concat(body.traits));
+      res.csv([headers].concat(item));
     });
 }
 

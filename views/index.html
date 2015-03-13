@@ -7,10 +7,12 @@
  {% for profile in user.profiles %}
   <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
 
-  <a class="zip" href="/23andme/data/{{ profile.id }}/zip"
+  <a class="zip" href="#"
    data-profile-id="{{ profile.id }}">Generate a zip file</a>
 
   <span class="generating" style="display: none;">Generating...</span>
+
+  <ul id="status"></ul>
 
   <h3>Health</h3>
 

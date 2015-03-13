@@ -1,3 +1,5 @@
+'use strict';
+
 /*global $:true, async:true, JSZip:true*/
 
 $(function () {
@@ -30,8 +32,12 @@ $(function () {
     $(self).next('.generating').show();
 
     async.map(urls, function (url, cbMap) {
+      $('#status').append('<li>retrieving ' + url.name + '</li>');
+
       $.get(url.url, function (data) {
-        cbMap(null, { name: url.name, data: data });
+        $('#status').append('<li>retrieved ' + url.name + '</li>');
+
+        cbMap(null, {name: url.name, data: data});
       }, 'text');
     }, function (err, results) {
       console.log(err, results);
@@ -42,9 +48,10 @@ $(function () {
         zip.file(result.name, result.data);
       });
 
-      var blob = zip.generate({ type: 'blob' });
+      var blob = zip.generate({type: 'blob'});
 
       $(self).next('.generating').hide();
+      $('#status').hide();
 
       $('<a>')
         .attr('class', 'download')
